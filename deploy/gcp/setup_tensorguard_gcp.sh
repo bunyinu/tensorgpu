@@ -35,11 +35,14 @@ echo
 echo "Select mode: [1] Auditor (read-only) [2] Sheriff (enforcement) [3] Both"
 read -rp "Choice: " CHOICE
 
+# Ensure scripts are executable
+chmod +x ./deploy/gcp/setup_tensorguard_auditor.sh ./deploy/gcp/setup_tensorguard_sheriff.sh
+
 run_auditor() {
-  ./setup_tensorguard_auditor.sh "${ORG_EXTERNAL_ID}" "${PROJECT_ID}"
+  ./deploy/gcp/setup_tensorguard_auditor.sh "${ORG_EXTERNAL_ID}" "${PROJECT_ID}"
 }
 run_sheriff() {
-  ./setup_tensorguard_sheriff.sh "${ORG_EXTERNAL_ID}" "${PROJECT_ID}"
+  ./deploy/gcp/setup_tensorguard_sheriff.sh "${ORG_EXTERNAL_ID}" "${PROJECT_ID}"
 }
 
 case "${CHOICE}" in
@@ -49,5 +52,9 @@ case "${CHOICE}" in
   *) echo "Invalid choice"; exit 1 ;;
 esac
 
+echo
+echo "If you saw a billing error, please enable billing for project '${PROJECT_ID}' and rerun:"
+echo "  gcloud billing accounts list"
+echo "  gcloud billing projects link ${PROJECT_ID} --billing-account <ACCOUNT_ID>"
 echo
 echo "Done. Upload the generated JSON key(s) and project ID into TensorGuard."
