@@ -13,4 +13,11 @@ Usage (from Cloud Shell clone):
 ./deploy/gcp/setup_tensorguard_gcp.sh <ORG_EXTERNAL_ID>
 ```
 3) Choose Auditor/Sheriff/Both when prompted.
-4) Upload the generated JSON key(s) and project ID into TensorGuard.
+4) If the script exits with a billing error: enable billing for the chosen project, then rerun:
+   - List billing accounts: `gcloud billing accounts list`
+   - Link one: `gcloud billing projects link <PROJECT_ID> --billing-account <ACCOUNT_ID>`
+5) Upload the generated JSON key(s) and project ID into TensorGuard.
+
+APIs enabled by the scripts (per project):
+- compute.googleapis.com
+- monitoring.googleapis.com
